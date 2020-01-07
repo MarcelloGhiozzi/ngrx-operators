@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngrx-operators": [
+        "dist/ngrx-operators"
+      ],
+      "ngrx-operators/*": [
+        "dist/ngrx-operators/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
