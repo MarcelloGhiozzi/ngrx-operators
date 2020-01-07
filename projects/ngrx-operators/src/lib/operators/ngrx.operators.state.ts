@@ -3,7 +3,7 @@ import { Monad } from '../monad';
 import { add, set } from './monad.operators';
 
 /**
- * Add a Key under which the current Feature will be in the Store
+ * Add a Key under which the current Feature will be set in the Store
  * @param key String literal of the Key
  */
 export function addKey<K extends string = string>(key: K) {

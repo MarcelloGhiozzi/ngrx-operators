@@ -19,7 +19,7 @@ export class AppComponent {
   add() {
     this.store.dispatch(ItemsFeature.actions.addOne({item: {
       id: new Date().toISOString(),
-      title: 'TEEEST'
+      title: 'DEMO!'
     }}));
   }
 

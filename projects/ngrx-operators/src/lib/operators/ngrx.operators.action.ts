@@ -38,6 +38,9 @@ export function addComposedActions<
     );
 }
 
+/**
+ * Helper operator used by addSideEffectActions to achieve strict typing
+ */
 export function addSideEffectAction<
     K extends string,
     V extends SideEffectAction<K>,

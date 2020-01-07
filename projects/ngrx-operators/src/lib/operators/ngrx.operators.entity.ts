@@ -38,7 +38,7 @@ export function makeEntity() {
 /**
  * Add a bunch of Utilities to the current Entity Feature including:
  * All & Entities Selectors,
- * Add, Update and Delete Actions and corresponding Reducers
+ * Add, Update and Delete Actions and related Reducers
  */
 export function addEntityUtilities<S extends {id: string}>() {
     return <T extends NgRxEntityFeature<S>>(source: Monad<T>) => source.pipe(

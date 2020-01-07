@@ -3,12 +3,16 @@ import { Injector, NgModule } from '@angular/core';
 import { Actions, EffectsModule } from '@ngrx/effects';
 import { Dictionary } from '@ngrx/entity';
 import { StoreModule } from '@ngrx/store';
-import { addEffectMap, addSideEffect } from 'projects/ngrx-monad/src/lib/operators/ngrx.operators.effect';
-import { NgRxEffectsProvider } from 'projects/ngrx-monad/src/lib/types/ngrx.effects';
-import { addSelectableEntity, createEntityFeature } from 'projects/ngrx-monad/src/public-api';
+import {
+    addSelectableEntity,
+    createEntityFeature,
+    addEffectMap,
+    addSideEffect,
+    NgRxEffectsProvider
+} from 'projects/ngrx-operators/src/public-api';
 
-export const ItemsKey = 'todo';                                                // TO REMOVE
-export interface Todo {id: string; title: string; }                             // TO REMOVE
+export const ItemsKey = 'todo';
+export interface Todo {id: string; title: string; }
 
 export const ItemsFeature = createEntityFeature('items', {} as Todo).pipe(
     addSelectableEntity(null),
@@ -17,20 +21,24 @@ export const ItemsFeature = createEntityFeature('items', {} as Todo).pipe(
 ).sample();
 
 
-export function ItemsReducer(state, action) {                                   // TO REMOVE
-    return ItemsFeature.reducer(state, action);                                 // TO REMOVE
-}                                                                               // TO REMOVE
+export function ItemsReducer(state, action) {
+    return ItemsFeature.reducer(state, action);
+}
 
-export class ItemsEffects extends NgRxEffectsProvider {}                        // TO REMOVE
-export class ItemsEffectsProvider {}                                            // TO REMOVE
+export class ItemsEffects extends NgRxEffectsProvider {}
+export class ItemsEffectsProvider {}
+
+export function EffectFactory(i, a) {
+    return new ItemsEffects(i, a, ItemsFeature.effects);
+}
 
 // @dynamic
 @NgModule({
-    providers: [{                                                               // TO REMOVE
-        provide: ItemsEffectsProvider,                                          // TO REMOVE
-        useFactory: (i, a) => new ItemsEffects(i, a, ItemsFeature.effects),     // TO REMOVE
-        deps: [Injector, Actions],                                              // TO REMOVE
-    }],                                                                         // TO REMOVE
+    providers: [{
+        provide: ItemsEffectsProvider,
+        useFactory: EffectFactory,
+        deps: [Injector, Actions],
+    }],
     imports: [
         StoreModule.forFeature(ItemsKey, ItemsReducer),
         EffectsModule.forFeature([ItemsEffectsProvider])

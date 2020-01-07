@@ -1,6 +1,5 @@
 import { Monad } from '../monad';
-import { KeyValue } from 'feature/feature';
-import { Omit } from '../types/common';
+import { Omit, KeyValue} from '../types/common';
 
 /**
  * Basic monad operator, spread n to the internal State
@@ -25,7 +24,7 @@ export function set<K extends string, V extends any = any>(p: K, v: V) {
         return new Monad({
             ...source.sample(),
             [p]: v
-        } as Omit<T, K> & KeyValue<K, V>);
+        } as T & Omit<T, K> & KeyValue<K, V>);
     };
 }
 

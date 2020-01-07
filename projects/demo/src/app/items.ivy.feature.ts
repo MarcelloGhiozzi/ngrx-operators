@@ -3,8 +3,15 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { Dictionary } from '@ngrx/entity';
 import { StoreModule } from '@ngrx/store';
-import { addEffectMap, addSelectableEntity, addSideEffect, createEffectProvider, createEntityFeature, createFeatureModule, createNgRxFeature, addAction, addReducer, addState } from 'projects/ngrx-monad/src/public-api';
 import { Todo } from './model';
+import {
+    addEffectMap,
+    addSelectableEntity,
+    addSideEffect,
+    createEffectProvider,
+    createEntityFeature,
+    createFeatureModule
+} from 'projects/ngrx-operators/src/public-api';
 
 
 export const ItemsFeature = createEntityFeature('items', {} as Todo).pipe(
