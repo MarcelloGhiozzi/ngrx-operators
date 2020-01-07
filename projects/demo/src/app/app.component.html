@@ -1,0 +1,18 @@
+<div class="item" *ngFor="let i of (all | async)">
+    <pre (click)="select(i)">
+        Id: {{i?.id}}
+        Nome: {{i?.title}}
+    </pre>
+</div>
+
+<div class="selected">
+    Selected: 
+    <pre *ngIf="selected | async as selected">
+        Id: {{selected?.id}}
+        Nome: {{selected?.title}}
+    </pre>
+</div>
+
+
+<button (click)="add()">Add</button>
+<button (click)="load()">Load</button>

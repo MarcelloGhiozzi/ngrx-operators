@@ -1,8 +1,11 @@
 {
-  "name": "ngrx-operators",
-  "version": "0.0.1",
+  "name": "@ngrx/operators",
+  "version": "0.0.3",
   "peerDependencies": {
-    "@angular/common": "^8.2.14",
-    "@angular/core": "^8.2.14"
+    "@angular/common": "^8.2.13",
+    "@angular/core": "^8.2.13",
+    "@ngrx/store": "8.5.1",
+    "@ngrx/effects": "8.5.1",
+    "@ngrx/entity": "8.5.1"
   }
 }
