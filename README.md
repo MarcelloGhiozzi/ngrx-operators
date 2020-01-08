@@ -16,10 +16,12 @@ Works only with Ivy renderer which will be the default in Angular 9. <br>
 ## Example
 
 ```typescript
-export const ItemsFeature = createEntityFeature('items', {} as Todo).pipe(
-    addSelectableEntity(null),
-    addSideEffect('load', (_, i) => i.get(HttpClient).get<Dictionary<Todo>>('https://jsonplaceholder.typicode.com/todos')),
-    addEffectMap((f) => f.actions.load.success, (f) => f.actions.addMany, (todos) => ({items: Object.values(todos)})),
+export const TodoFeature = createEntityFeature('todos', {} as Todo).pipe(
+    addSelectableEntity(),
+    addSideEffect('load', (_, i) => i.get(HttpClient).get<Todo[]>('https://jsonplaceholder.typicode.com/todos').pipe(
+        map(result => ({result}))
+    )),
+    addEffectMap((f) => f.actions.load.success, (f) => f.actions.addMany, ({result}) => ({items: result})),
 ).sample();
 ```
 
