@@ -10,7 +10,7 @@ export function createEffectProvider<T extends Type<any>>(
 ): Provider[] {
     return [{
         provide,
-        useFactory: (i, a) => new NgRxEffectsProvider(i, a, feature.effects),
+        useFactory: (i, a) => new provide(i, a, feature.effects),
         deps: [Injector, Actions]
     }];
 }

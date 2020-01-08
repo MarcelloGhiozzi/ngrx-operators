@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { ItemsFeature, Todo } from './items.feature';
+import { TodoFeature } from './todo.feature';
+import { UserFeature } from './user.feature';
+import { Todo } from './model';
 
 @Component({
   selector: 'app-root',
@@ -10,29 +12,33 @@ import { ItemsFeature, Todo } from './items.feature';
 export class AppComponent {
 
 
-  selected = this.store.pipe(select(ItemsFeature.selectors.selected));
-  all = this.store.pipe(select(ItemsFeature.selectors.all));
+  selected = this.store.pipe(select(TodoFeature.selectors.selected));
+  all = this.store.pipe(select(TodoFeature.selectors.all));
 
   constructor(private store: Store<any>) {}
 
 
   add() {
-    this.store.dispatch(ItemsFeature.actions.addOne({item: {
+    this.store.dispatch(TodoFeature.actions.addOne({item: {
       id: new Date().toISOString(),
       title: 'DEMO!'
     }}));
   }
 
   delete(item: Todo) {
-    this.store.dispatch(ItemsFeature.actions.deleteOne({item}));
+    this.store.dispatch(TodoFeature.actions.deleteOne({item}));
   }
 
   select({ id }: Todo) {
-    this.store.dispatch(ItemsFeature.actions.select({id}));
+    this.store.dispatch(TodoFeature.actions.select({id}));
   }
 
   load() {
-    this.store.dispatch(ItemsFeature.actions.load.trigger({}));
+    this.store.dispatch(TodoFeature.actions.load.trigger({}));
+  }
+
+  users() {
+    this.store.dispatch(UserFeature.actions.load.trigger({}));
   }
 
 

@@ -36,7 +36,7 @@ export function addLoading(
  * This Operator will add the selected item in the State, the relative Selector and Actions
  * @param selected Default ID for the selected item
  */
-export function addSelectableEntity<S>(selected: ID) {
+export function addSelectableEntity<S>(selected: ID = null) {
     return <T extends NgRxEntityFeature<S>>(source: Monad<T>) => source.pipe(
         addState({selected}),
         addFeatureSelector(),

@@ -6,7 +6,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
-import { ItemsFeatureModule } from './items.ivy.feature';
+import { TodoFeatureModule } from './todo.feature';
+import { UserFeatureModule } from './user.feature';
 
 @NgModule({
   declarations: [
@@ -19,16 +20,10 @@ import { ItemsFeatureModule } from './items.ivy.feature';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument(),
-    ItemsFeatureModule,
+    UserFeatureModule,
+    TodoFeatureModule,
   ],
   bootstrap: [AppComponent],
   exports: []
 })
-export class AppModule {
-
-
-  constructor() {
-
-  }
-
-}
+export class AppModule {}
