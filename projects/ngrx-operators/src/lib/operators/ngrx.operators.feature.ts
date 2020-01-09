@@ -2,28 +2,31 @@ import { ActionCreator, createAction, createReducer, createSelector, on, props }
 import { Monad } from '../monad';
 import { ID } from '../types/common';
 import { NgRxEntityFeature, NgRxFeature } from '../types/ngrx.feature';
-import { addAction, addComposedActions } from './ngrx.operators.action';
+import { addComposedActions } from './ngrx.operators.action';
 import { addReducer } from './ngrx.operators.reducer';
 import { addComposedSelector, addFeatureSelector } from './ngrx.operators.selector';
 import { addState } from './ngrx.operators.state';
 
 /**
- * Create and add an entity Adapter using the current State
+ * Extends the current Feature with Loading Feature.
+ * @param ons Action that turn on the loading
+ * @param offs Action that turn off the loading
  */
-export function addLoading(
-    ons: ActionCreator,
-    offs: ActionCreator
+export function addLoading<T extends NgRxFeature = NgRxFeature>(
+    onCreator: (f: T) => ActionCreator,
+    offCreator: (f: T) => ActionCreator
 ) {
-    return <T extends NgRxFeature = NgRxFeature>(source: Monad<T>) => source.pipe(
+    return (source: Monad<T>) => source.pipe(
         addState({loading: false}),
-        addAction({test: createAction('test')}),
+        addFeatureSelector(),
+        addComposedSelector(f => ({loading: createSelector(f.selectors.featureSelector, (state) => state.loading)})),
         addReducer((feature) => createReducer(
             feature.state,
-            on(ons, (state) => ({
+            on(onCreator(source.sample()), (state) => ({
                     ...state,
                     loading: true
             })),
-            on(offs, (state) => ({
+            on(offCreator(source.sample()), (state) => ({
                     ...state,
                     loading: false
             }))
