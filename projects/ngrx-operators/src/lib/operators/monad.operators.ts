@@ -21,12 +21,12 @@ export function add<V extends any = any>(v: V) {
  */
 export function set<K extends string, V extends any = any>(p: K, v: V) {
     return <T>(source: Monad<T>) => {
-        return new Monad({
+        const sample: any = {
             ...source.sample(),
             [p]: v
-        } as T & Omit<T, K> & KeyValue<K, V>);
+        };
+        return new Monad(sample as Omit<T, K> & KeyValue<K, V>);
     };
 }
-
 
 
