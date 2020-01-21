@@ -4,7 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { addEffectMap, addSelectableEntity, addSideEffect, createEffectProvider, createEntityFeature, NgRxEffectsProvider } from 'projects/ngrx-operators/src/public-api';
 import { map } from 'rxjs/operators';
-import { Todo } from './model';
+import { Todo } from '../model';
 
 
 export const TodoFeature = createEntityFeature('todos', {} as Todo).pipe(
@@ -25,4 +25,5 @@ export class TodoEffectsProvider extends NgRxEffectsProvider {}
     ]
 })
 export class TodoFeatureModule {}
+
 
