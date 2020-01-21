@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { WorkspaceComponent } from './workspace.component';
+import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
   declarations: [WorkspaceComponent],
   imports: [
-    CommonModule
+    SharedModule,
+    RouterModule.forChild([{path: '', component: WorkspaceComponent}])
   ]
 })
 export class WorkspaceModule { }

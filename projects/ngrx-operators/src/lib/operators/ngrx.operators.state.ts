@@ -1,6 +1,7 @@
 import { NgRxFeature } from '../types/ngrx.feature';
 import { Monad } from '../monad';
 import { add, set } from './monad.operators';
+import { addReducer } from './ngrx.operators.reducer';
 
 /**
  * Add a Key under which the current Feature will be set in the Store
@@ -24,7 +25,11 @@ export function addState<V extends any = any>(state: V) {
             add({state: {
                 ...source.sample().state as T['state'],
                 ...state
-            }})
+            }}),
+            addReducer(f => (state, action) => ({
+                ...f.state,
+                ...(f.reducer as any)(state, action)
+            }))
         );
     };
 }

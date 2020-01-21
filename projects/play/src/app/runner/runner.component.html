@@ -1,1 +1,5 @@
-<p>runner works!</p>
+<ng-container *ngFor="let action of actions">
+    <button (click)="dispatch(action.action)">{{action?.name}}</button>
+</ng-container>
+
+<textarea [(ngModel)]="payload"></textarea>
