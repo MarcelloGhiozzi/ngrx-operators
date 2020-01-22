@@ -15,7 +15,7 @@ export class RunnerModule {}
 export class BuildEffectProvider extends NgRxEffectsProvider {}
 
 export const build = () => {
-  const feature = AppModule.keeper.build;
+  const feature = AppModule.feature;
   console.log(feature);
   return NgModule({
     providers: [createEffectProvider(BuildEffectProvider, feature)],

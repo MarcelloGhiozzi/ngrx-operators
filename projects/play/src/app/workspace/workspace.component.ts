@@ -1,9 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { KeeperService } from '../core/keeper.service';
-import { createNgRxFeature, addState, addReducer } from 'projects/ngrx-operators/src/public-api';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { createAction } from '@ngrx/store';
+import { addAction, addReducer, addState, createNgRxFeature } from 'projects/ngrx-operators/src/public-api';
 import { AppModule } from 'projects/play/src/app/app.module';
-import { createReducer } from '@ngrx/store';
+
+export const mapObject = (object: object, f: (value: any) => any) => {
+  const r = {};
+  Object.keys(object).forEach(key => {
+    r[key] = f(object[key]);
+  });
+  return r;
+};
+
+
 
 @Component({
   selector: 'app-workspace',
@@ -14,17 +23,21 @@ export class WorkspaceComponent {
 
   key = 'build';
   stateJSON: string;
+  actionJSON: string;
 
   constructor(
     private router: Router
   ) { }
 
   build() {
-    AppModule.keeper.build = createNgRxFeature(this.key).pipe(
+    AppModule.feature = createNgRxFeature(this.key).pipe(
       addReducer(f => (state) => state),
-      addState(JSON.parse(this.stateJSON))
+      addState(JSON.parse(this.stateJSON)),
+      addAction(mapObject(JSON.parse(this.actionJSON), type => createAction(type))),
     ).sample();
     this.router.navigateByUrl('/runner');
   }
 
 }
+
+

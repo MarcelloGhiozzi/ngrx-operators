@@ -2,12 +2,12 @@ import { NgRxFeature } from '../types/ngrx.feature';
 import { Monad } from '../monad';
 import { Injector } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { Observable, of, concat } from 'rxjs';
+import { switchMap, map, catchError, concatMap, mergeMap, exhaustMap } from 'rxjs/operators';
 import { addSideEffectActions } from './ngrx.operators.action';
 import { ActionCreator } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
-
+import { HttpClient } from '@angular/common/http';
 
 /**
  * Add an Effect to the current feature given the current Feature, an Injector and the Actions observable
@@ -29,18 +29,69 @@ export function addSideEffect<
     K extends string,
     T extends {} = {},
     S extends {} = {},
->(action: K, c: (t: T, i: Injector) => Observable<S>) {
+>(action: K, c: (i: Injector) => (source: Observable<TypedAction<string> & T>) => Observable<S>) {
     return <F extends NgRxFeature>(source: Monad<F>) => source.pipe(
         addSideEffectActions<K, T, S, {}>(action),
-        addEffect(f => (i, a) => createEffect(() => a.pipe(
+        addEffect(f => (i, a) => createEffect(() => c(i)(a.pipe(
             ofType(f.actions[action].trigger),
-            switchMap(t => c(t, i).pipe(
-                map(s => f.actions[action].success(s)),
-                catchError(error => of(f.actions[action].failure(error)))
-            )),
+        )).pipe(
+            map(s => f.actions[action].success(s)),
+            catchError(error => of(f.actions[action].failure(error)))
         )))
     );
 }
+
+export function addSwitchEffect<
+    K extends string,
+    T extends {} = {},
+    S extends {} = {},
+>(action: K, c: (i: Injector, t: T) => Observable<S>) {
+    return <F extends NgRxFeature>(source: Monad<F>) => source.pipe(
+        addSideEffect<K, T, S>(action, (i) => obs => obs.pipe(
+            switchMap(t => c(i, t))
+        ))
+    );
+}
+
+export function addConcatEffect<
+    K extends string,
+    T extends {} = {},
+    S extends {} = {},
+>(action: K, c: (i: Injector, t: T) => Observable<S>) {
+    return <F extends NgRxFeature>(source: Monad<F>) => source.pipe(
+        addSideEffect<K, T, S>(action, (i) => obs => obs.pipe(
+            concatMap(t => c(i, t))
+        ))
+    );
+}
+
+
+export function addExhaustEffect<
+    K extends string,
+    T extends {} = {},
+    S extends {} = {},
+>(action: K, c: (i: Injector, t: T) => Observable<S>) {
+    return <F extends NgRxFeature>(source: Monad<F>) => source.pipe(
+        addSideEffect<K, T, S>(action, (i) => obs => obs.pipe(
+            exhaustMap(t => c(i, t))
+        ))
+    );
+}
+
+
+export function addMergeEffect<
+    K extends string,
+    T extends {} = {},
+    S extends {} = {},
+>(action: K, c: (i: Injector, t: T) => Observable<S>) {
+    return <F extends NgRxFeature>(source: Monad<F>) => source.pipe(
+        addSideEffect<K, T, S>(action, (i) => obs => obs.pipe(
+            mergeMap(t => c(i, t))
+        ))
+    );
+}
+
+
 
 /**
  * Add an Effect that maps one Action to another Action
@@ -81,5 +132,16 @@ export function addActionlessEffect<
         addEffect(f => (_, a) => createEffect(() => pipe(a.pipe(
             ofType(from(f))
         )), { dispatch: false }))
+    );
+}
+
+
+export function addHttpEffect<
+    K extends string,
+    T extends {} = {},
+    S extends {} = {},
+>(action: K, c: (i: HttpClient) => (source: Observable<TypedAction<string> & T>) => Observable<S>) {
+    return <F extends NgRxFeature>(source: Monad<F>) => source.pipe(
+        addSideEffect<K, T, S>(action, i => c(i.get(HttpClient)))
     );
 }

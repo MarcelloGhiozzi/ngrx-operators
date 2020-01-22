@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 export class RunnerComponent {
 
 
-  public feature = AppModule.keeper.build;
+  public feature = AppModule.feature;
 
   public payload: string;
 

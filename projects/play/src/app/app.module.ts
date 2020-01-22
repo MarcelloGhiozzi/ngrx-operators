@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { KeeperService } from './core/keeper.service';
+import { NgRxEntityFeature, NgRxFeature } from 'projects/ngrx-operators/src/lib/types/ngrx.feature';
 
 @NgModule({
   declarations: [
@@ -20,9 +21,8 @@ import { KeeperService } from './core/keeper.service';
 })
 export class AppModule {
 
-  static keeper: KeeperService;
-  constructor(keeper: KeeperService) {
-    AppModule.keeper = keeper;
+  static feature: NgRxEntityFeature<any> | NgRxFeature;
+  constructor() {
   }
 
 }
