@@ -2,6 +2,7 @@ import { NgRxFeature } from '../types/ngrx.feature';
 import { Monad } from '../monad';
 import { add, set } from './monad.operators';
 import { addReducer } from './ngrx.operators.reducer';
+import { addFeatureSelector } from './ngrx.operators.selector';
 
 /**
  * Add a Key under which the current Feature will be set in the Store
@@ -29,7 +30,8 @@ export function addState<V extends any = any>(state: V) {
             addReducer(f => (state, action) => ({
                 ...f.state,
                 ...(f.reducer as any)(state, action)
-            }))
+            })),
+            addFeatureSelector()
         );
     };
 }

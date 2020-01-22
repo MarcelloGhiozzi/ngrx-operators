@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { createAction } from '@ngrx/store';
-import { addAction, addReducer, addState, createNgRxFeature } from 'projects/ngrx-operators/src/public-api';
-import { AppModule } from 'projects/play/src/app/app.module';
+import { Store, select } from '@ngrx/store';
+import { WorkspaceFeature, Operator } from '../core/workspace.feature';
 
 export const mapObject = (object: object, f: (value: any) => any) => {
   const r = {};
@@ -12,8 +11,6 @@ export const mapObject = (object: object, f: (value: any) => any) => {
   return r;
 };
 
-
-
 @Component({
   selector: 'app-workspace',
   templateUrl: './workspace.component.html',
@@ -21,21 +18,21 @@ export const mapObject = (object: object, f: (value: any) => any) => {
 })
 export class WorkspaceComponent {
 
-  key = 'build';
-  stateJSON: string;
-  actionJSON: string;
+
+  toolbox = this.store.pipe(select(WorkspaceFeature.selectors.toolbox));
+  feature = this.store.pipe(select(WorkspaceFeature.selectors.all));
 
   constructor(
-    private router: Router
-  ) { }
+    private router: Router,
+    private store: Store<any>
+  ) {   }
 
   build() {
-    AppModule.feature = createNgRxFeature(this.key).pipe(
-      addReducer(f => (state) => state),
-      addState(JSON.parse(this.stateJSON)),
-      addAction(mapObject(JSON.parse(this.actionJSON), type => createAction(type))),
-    ).sample();
     this.router.navigateByUrl('/runner');
+  }
+
+  commit(op: Operator) {
+    this.store.dispatch(WorkspaceFeature.actions.commit({op}));
   }
 
 }

@@ -1,3 +1,14 @@
-<textarea [(ngModel)]="stateJSON"></textarea>
-<textarea [(ngModel)]="actionJSON"></textarea>
-<button (click)="build()">Build</button>
+<div class="toolbox">
+    <title class="header">TOOLBOX</title>
+    <spacer></spacer>
+    <ng-container *ngFor="let block of (toolbox | async)">
+        <block (click)="commit(block)" [name]="block?.id"></block>
+    </ng-container>
+</div>
+<div class="workspace">
+    <title class="header">FEATURE</title>
+    <spacer></spacer>
+    <ng-container *ngFor="let block of (feature | async)">
+        <block [name]="block?.id" [committed]="true"></block>
+    </ng-container>
+</div>

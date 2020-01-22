@@ -1,0 +1,7 @@
+<ng-container *ngIf="(metadata | async) as metadata">
+    <title>{{metadata.name}}</title>
+    <text>{{metadata.description}}</text>
+</ng-container>
+<div class="control" *ngIf="committed">
+    <ng-template block-host></ng-template>
+</div>

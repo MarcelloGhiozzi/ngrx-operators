@@ -1,17 +1,39 @@
 import { Operator } from './workspace.feature';
-import { createNgRxFeature, createEntityFeature } from 'projects/ngrx-operators/src/public-api';
 
-export const OPERATORS: Operator[] = [
+export enum BlockNames {
+    CreateFeature = 'create_feature',
+    CreateEntityFeature = 'create_entity_feature',
+    AddAction = 'add_action',
+    AddEffectMap = 'add_effect_map',
+    AddHttpEffect = 'add_http_effect'
+}
+
+export const BLOCKS: Operator[] = [
     {
-        id: 'create_feature',
+        id: BlockNames.CreateFeature,
         name: 'Create Feature',
-        args: ['key'],
-        function: createNgRxFeature
+        description: 'The basic starter operator: define the feature key and initial state'
     },
     {
-        id: 'create_entity_feature',
+        id: BlockNames.CreateEntityFeature,
         name: 'Create Entity Feature',
-        args: ['key'],
-        function: createEntityFeature
-    }
+        description: 'Start from here if you are creating an entity feature with multiple entities'
+    },
+    {
+        id: BlockNames.AddAction,
+        name: 'Create Feature',
+        description: 'The basic starter operator: define the feature key and initial state'
+    },
+    {
+        id: BlockNames.AddEffectMap,
+        name: 'Create Entity Feature',
+        description: 'Start from here if you are creating an entity feature with multiple entities'
+    },
+    {
+        id: BlockNames.AddHttpEffect,
+        name: 'Create Feature',
+        description: 'The basic starter operator: define the feature key and initial state'
+    },
 ];
+
+

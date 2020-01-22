@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OperatorComponent } from './operator/operator.component';
-import { ToolboxComponent } from './toolbox/toolbox.component';
-import { SampleComponent } from './sample/sample.component';
 import { FormsModule } from '@angular/forms';
+import { TextComponent } from './text/text.component';
+import { TitleComponent } from './title/title.component';
+import { SpacerComponent } from './spacer/spacer.component';
 
 
 
 @NgModule({
-  declarations: [OperatorComponent, ToolboxComponent, SampleComponent],
+  declarations: [TextComponent, TitleComponent, SpacerComponent],
   imports: [
     CommonModule,
     FormsModule
   ],
-  exports: [CommonModule, FormsModule]
+  exports: [CommonModule, FormsModule, TextComponent, TitleComponent, SpacerComponent]
 })
 export class SharedModule { }
