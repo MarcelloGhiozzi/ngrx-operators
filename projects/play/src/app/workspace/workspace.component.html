@@ -1,14 +1,15 @@
-<div class="toolbox">
+<div class="toolbox pad">
     <title class="header">TOOLBOX</title>
-    <spacer></spacer>
     <ng-container *ngFor="let block of (toolbox | async)">
-        <block (click)="commit(block)" [name]="block?.id"></block>
+        <block (click)="commit(block)" [block]="block"></block>
     </ng-container>
 </div>
-<div class="workspace">
-    <title class="header">FEATURE</title>
-    <spacer></spacer>
+<div class="workspace pad">
+    <title (click)="sample()" class="header"> 
+        FEATURE
+    </title>
     <ng-container *ngFor="let block of (feature | async)">
-        <block [name]="block?.id" [committed]="true"></block>
+        <block [block]="block" [committed]="true"></block>
     </ng-container>
 </div>
+

@@ -19,8 +19,7 @@ import { NgRxEntityFeature, NgRxFeature } from 'projects/ngrx-operators/src/lib/
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
-  static feature: NgRxEntityFeature<any> | NgRxFeature;
+  
   constructor() {
   }
 

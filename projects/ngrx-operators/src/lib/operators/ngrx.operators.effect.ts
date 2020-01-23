@@ -126,10 +126,10 @@ export function addActionlessEffect<
     F
 >(
     from: (feature: Z) => ActionCreator<string, (props: F) => TypedAction<string> & F>,
-    pipe: (observable: Observable<F>) => Observable<any>
+    pipe: (f: Z) => (i: Injector) => (observable: Observable<F>) => Observable<any>
 ) {
     return (source: Monad<Z>) => source.pipe(
-        addEffect(f => (_, a) => createEffect(() => pipe(a.pipe(
+        addEffect(f => (i, a) => createEffect(() => pipe(f)(i)(a.pipe(
             ofType(from(f))
         )), { dispatch: false }))
     );

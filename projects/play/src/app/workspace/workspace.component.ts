@@ -1,15 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { WorkspaceFeature, Operator } from '../core/workspace.feature';
-
-export const mapObject = (object: object, f: (value: any) => any) => {
-  const r = {};
-  Object.keys(object).forEach(key => {
-    r[key] = f(object[key]);
-  });
-  return r;
-};
+import { WorkspaceFeature } from '../core/workspace.feature';
+import { Block } from '../core/workspace.operators';
 
 @Component({
   selector: 'app-workspace',
@@ -31,8 +24,15 @@ export class WorkspaceComponent {
     this.router.navigateByUrl('/runner');
   }
 
-  commit(op: Operator) {
-    this.store.dispatch(WorkspaceFeature.actions.commit({op}));
+  sample() {
+    this.store.dispatch(WorkspaceFeature.actions.sample());
+  }
+
+  commit(block: Block) {
+    this.store.dispatch(WorkspaceFeature.actions.commit({block: {
+      ...block,
+      id: block.id || Date.now().toString()
+    }}));
   }
 
 }

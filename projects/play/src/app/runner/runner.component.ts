@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppModule } from 'projects/play/src/app/app.module';
 import { Store } from '@ngrx/store';
+import { WorkspaceService } from '../core/workspace.builder';
 
 @Component({
   selector: 'app-runner',
@@ -10,7 +11,7 @@ import { Store } from '@ngrx/store';
 export class RunnerComponent {
 
 
-  public feature = AppModule.feature;
+  public feature = WorkspaceService.feature;
 
   public payload: string;
 
@@ -19,11 +20,10 @@ export class RunnerComponent {
     action: this.feature.actions[name]
   }));
 
-  constructor(private store: Store<any>) { }
+  constructor(private store: Store<any>) {}
 
   dispatch(action) {
-    const args = JSON.parse(this.payload);
-    this.store.dispatch(action(args));
+    this.store.dispatch(action(JSON.parse(this.payload)));
   }
 
 }

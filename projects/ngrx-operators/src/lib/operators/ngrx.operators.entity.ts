@@ -70,6 +70,14 @@ export function addEntityUtilities<S extends {id: string}>() {
                 `[${feature.key.toUpperCase()}] Update Many`,
                 props<{items: S[]}>()
             ),
+            uspsertOne: createAction(
+                `[${feature.key.toUpperCase()}] Upsert One`,
+                props<{item: S}>()
+            ),
+            uspsertMany: createAction(
+                `[${feature.key.toUpperCase()}] Upsert Many`,
+                props<{items: S[]}>()
+            ),
             deleteOne: createAction(
                 `[${feature.key.toUpperCase()}] Delete One`,
                 props<{item: S}>()
@@ -88,6 +96,10 @@ export function addEntityUtilities<S extends {id: string}>() {
                 (state, {item}) => feature.adapter.updateOne({id: item.id, changes: item}, state)),
             on(feature.actions.updateMany,
                 (state, {items}) => feature.adapter.updateMany(items.map(item => ({id: item.id, changes: item})), state)),
+            on(feature.actions.uspsertOne,
+                (state, {item}) => feature.adapter.upsertOne(item, state)),
+            on(feature.actions.uspsertMany,
+                (state, {items}) => feature.adapter.upsertMany(items, state)),
             on(feature.actions.deleteOne,
                 (state, {item}) => feature.adapter.removeOne(item.id, state)),
             on(feature.actions.deleteMany,

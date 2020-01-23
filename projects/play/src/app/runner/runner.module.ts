@@ -6,6 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppModule } from 'projects/play/src/app/app.module';
 import { NgRxEffectsProvider, createEffectProvider } from 'projects/ngrx-operators/src/public-api';
 import { SharedModule } from '../shared/shared.module';
+import { WorkspaceService } from '../core/workspace.builder';
 
 
 @NgModule({})
@@ -15,7 +16,7 @@ export class RunnerModule {}
 export class BuildEffectProvider extends NgRxEffectsProvider {}
 
 export const build = () => {
-  const feature = AppModule.feature;
+  const feature = WorkspaceService.feature;
   console.log(feature);
   return NgModule({
     providers: [createEffectProvider(BuildEffectProvider, feature)],

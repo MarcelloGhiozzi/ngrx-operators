@@ -1,39 +1,91 @@
-import { Operator } from './workspace.feature';
+import { createEntityFeature, createNgRxFeature, addHttpEffect, addEffectMap, addSelectableEntity } from 'projects/ngrx-operators/src/public-api';
+
+export enum BlockArgs {
+    Number = 'number',
+    String = 'string',
+    Object = 'object',
+    Action = 'action',
+    Request = 'request'
+}
+
+export interface Block {
+    id: string;
+    tag: BlockNames;
+    name?: string;
+    description?: string;
+    args?: {
+        [name: string]: {
+            type: BlockArgs,
+            value?: any
+        }
+    };
+}
 
 export enum BlockNames {
     CreateFeature = 'create_feature',
     CreateEntityFeature = 'create_entity_feature',
-    AddAction = 'add_action',
     AddEffectMap = 'add_effect_map',
-    AddHttpEffect = 'add_http_effect'
+    AddHttpEffect = 'add_http_effect',
+    AddSelectableEntity = 'add_selectable_entity'
 }
 
-export const BLOCKS: Operator[] = [
-    {
-        id: BlockNames.CreateFeature,
+export const BlockToOperator: {
+    [P in BlockNames]: any
+} = {
+    [BlockNames.CreateEntityFeature]: createEntityFeature,
+    [BlockNames.CreateFeature]: createNgRxFeature,
+    [BlockNames.AddHttpEffect]: addHttpEffect,
+    [BlockNames.AddEffectMap]: addEffectMap,
+    [BlockNames.AddSelectableEntity]: addSelectableEntity
+};
+
+export const BLOCKS: {[id: string]: Block} = {
+    [BlockNames.CreateFeature]: {
+        id: 'start',
+        tag: BlockNames.CreateFeature,
         name: 'Create Feature',
-        description: 'The basic starter operator: define the feature key and initial state'
+        description: 'A basic feature with a feature selector and intial state',
+        args:  {
+            key: {type: BlockArgs.String, value: 'counter'},
+            state: {type: BlockArgs.Object, value: {value: 0}}
+        }
     },
-    {
-        id: BlockNames.CreateEntityFeature,
+    [BlockNames.CreateEntityFeature]: {
+        id: 'start',
+        tag: BlockNames.CreateEntityFeature,
         name: 'Create Entity Feature',
-        description: 'Start from here if you are creating an entity feature with multiple entities'
+        description: 'This blocks creates a full entitiy feature with common selectors and actions',
+        args: {
+            key: {type: BlockArgs.String, value: 'todos'}
+        }
     },
-    {
-        id: BlockNames.AddAction,
-        name: 'Create Feature',
-        description: 'The basic starter operator: define the feature key and initial state'
+    [BlockNames.AddHttpEffect]: {
+        id: null,
+        tag: BlockNames.AddHttpEffect,
+        name: 'Add Http Effect',
+        description: 'Adds a trigger, success and failure actions already wired to an http request',
+        args: {
+            name: {type: BlockArgs.String, value: 'load'},
+            url: {type: BlockArgs.Request, value: 'https://jsonplaceholder.typicode.com/todos'}
+        }
     },
-    {
-        id: BlockNames.AddEffectMap,
-        name: 'Create Entity Feature',
-        description: 'Start from here if you are creating an entity feature with multiple entities'
+    [BlockNames.AddEffectMap]: {
+        id: null,
+        tag: BlockNames.AddEffectMap,
+        name: 'Add Effect Map',
+        description: 'Creates an effect that maps action A to action B',
+        args: {
+            from: {type: BlockArgs.Action},
+            to: {type: BlockArgs.Action}
+        }
     },
-    {
-        id: BlockNames.AddHttpEffect,
-        name: 'Create Feature',
-        description: 'The basic starter operator: define the feature key and initial state'
-    },
-];
+    [BlockNames.AddSelectableEntity]: {
+        id: 'selectable',
+        tag: BlockNames.AddSelectableEntity,
+        name: 'Add Selectable Enitity',
+        description: 'Add what needed to select a single entity from an entity feature',
+        args: {}
+    }
+};
 
 

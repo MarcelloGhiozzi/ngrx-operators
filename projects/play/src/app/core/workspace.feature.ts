@@ -1,22 +1,29 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { createAction, props, StoreModule, createSelector } from '@ngrx/store';
-import { addAction, addEffectMap, addSelectableEntity, addState, createEffectProvider, createEntityFeature, NgRxEffectsProvider, addComposedSelector } from 'projects/ngrx-operators/src/public-api';
-import { BLOCKS } from './workspace.operators';
+import { createAction, props, StoreModule, createSelector, Store, select } from '@ngrx/store';
+import { addAction, addEffectMap, addSelectableEntity, addState, createEffectProvider, createEntityFeature, NgRxEffectsProvider, addComposedSelector, addActionlessEffect } from 'projects/ngrx-operators/src/public-api';
+import { BLOCKS, Block } from './workspace.operators';
+import { switchMap, take, tap, map } from 'rxjs/operators';
+import { sampleFeature, WorkspaceService } from './workspace.builder';
+import { Router } from '@angular/router';
 
 
-export interface Operator {
-    id: string;
-    name?: string;
-    description?: string;
-}
-
-export const WorkspaceFeature = createEntityFeature('workpsace', {} as Operator).pipe(
+export const WorkspaceFeature = createEntityFeature('workpsace', {} as Block).pipe(
     addSelectableEntity(),
     addState({toolbox: BLOCKS}),
-    addAction({commit: createAction('[WORKSPACE] Commit Operator', props<{op: Operator}>())}),
-    addComposedSelector(f => ({toolbox: createSelector(f.selectors.featureSelector, (state) => state.toolbox)})),
-    addEffectMap(f => f.actions.commit, f => f.actions.addOne, commit => ({item: commit.op}))
+    addAction({commit: createAction('[WORKSPACE] Commit Block', props<{block: Block}>())}),
+    addAction({sample: createAction('[WORKSPACE] Sample Feature')}),
+    addComposedSelector(f => ({toolbox: createSelector(f.selectors.featureSelector, (state) => Object.values(state.toolbox))})),
+    addEffectMap(f => f.actions.commit, f => f.actions.uspsertOne, commit => ({item: commit.block})),
+    addActionlessEffect(f => f.actions.sample, f => (inj) => (obs) => obs.pipe(
+        switchMap(() => inj.get(Store).pipe(
+            select(f.selectors.all),
+            take(1),
+            map(blocks => sampleFeature(blocks)),
+            tap(feature => inj.get(WorkspaceService).mountFeature(feature)),
+            tap(() => inj.get(Router).navigateByUrl('/runner'))
+        ))
+    ) )
 ).sample();
 
 
