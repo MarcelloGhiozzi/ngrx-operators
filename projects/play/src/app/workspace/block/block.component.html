@@ -1,7 +1,10 @@
 <ng-container *ngIf="(metadata | async) as metadata">
     <title>{{metadata.name}}</title>
     <text>{{metadata.description}}</text>
-</ng-container>
 <div class="control" *ngIf="committed">
-    <button>Commit</button>
+    <ng-container *ngFor="let arg of metadata?.args">
+        <input-arg [control]="form?.controls[arg?.name]" [arg]="arg"></input-arg>
+    </ng-container>
 </div>
+</ng-container>
+

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextComponent } from './text/text.component';
 import { TitleComponent } from './title/title.component';
 import { SpacerComponent } from './spacer/spacer.component';
@@ -23,12 +23,21 @@ const SHARED = [
   InputArgDirective
 ];
 
+const ENTRY = [
+  InputStringComponent,
+  InputNumberComponent,
+  InputObjectComponent,
+  InputActionComponent,
+];
+
 @NgModule({
   declarations: SHARED,
+  entryComponents: ENTRY,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  exports: [CommonModule, FormsModule, ...SHARED]
+  exports: [CommonModule, FormsModule, ReactiveFormsModule, ...SHARED]
 })
 export class SharedModule { }

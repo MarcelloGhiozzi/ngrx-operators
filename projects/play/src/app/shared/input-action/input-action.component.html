@@ -1,1 +1,5 @@
-<p>input-action works!</p>
+<select>
+    <ng-container *ngFor="let a of actions">
+        <option [value]="a?.value">{{a?.name}}</option>
+    </ng-container>
+</select>

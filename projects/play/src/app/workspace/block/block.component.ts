@@ -1,16 +1,11 @@
-import { Component, OnInit, ComponentFactoryResolver, Input, ViewChild } from '@angular/core';
-import { BlockNames, Block } from '../../core/workspace.operators';
-import { CreateFeatureComponent } from '../blocks/create-feature/create-feature.component';
-import { BlockDirective } from './block.directive';
-import { Store, select } from '@ngrx/store';
-import { WorkspaceFeature } from '../../core/workspace.feature';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { mapObject } from '../../core/utils';
+import { WorkspaceFeature } from '../../core/workspace.feature';
+import { Block, BlockNames } from '../../core/workspace.operators';
 
-export const BlockComponents = {
-  [BlockNames.CreateFeature]: CreateFeatureComponent
-};
 
 @Component({
   selector: 'block',
@@ -21,7 +16,6 @@ export class BlockComponent implements OnInit {
 
   @Input() block: Block;
   @Input() committed = false;
-  @ViewChild(BlockDirective, {static: true}) host: BlockDirective;
 
   form: FormGroup;
   metadata = this.store.pipe(
@@ -38,14 +32,10 @@ export class BlockComponent implements OnInit {
 
   constructor(
     private store: Store<any>,
-    private componentFactoryResolver: ComponentFactoryResolver
   ) { }
 
   ngOnInit() {
-    // this.form = new FormGroup(mapObject(this.block.args, val => new FormControl('', Validators.required)));
-    // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(BlockComponents[this.name]);
-    // const viewContainerRef = this.host.viewContainerRef;
-    // viewContainerRef.createComponent(componentFactory);
+    this.form = new FormGroup(mapObject(this.block.args, val => new FormControl(val.value, Validators.required)));
   }
 
   commit() {

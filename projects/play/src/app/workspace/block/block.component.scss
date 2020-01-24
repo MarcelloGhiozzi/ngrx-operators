@@ -5,18 +5,7 @@
     box-shadow: 0 0 10px rgba(0,0,0,.3);
     border-radius: 10px;
     margin-bottom: 2rem;
-    .inputs {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        * {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            span {
-                margin-right: .5rem;
-            }
-        }
+    .control {
+        padding-top: 2rem;
     }
 }

@@ -11,11 +11,14 @@ import { Router } from '@angular/router';
 export const WorkspaceFeature = createEntityFeature('workpsace', {} as Block).pipe(
     addSelectableEntity(),
     addState({toolbox: BLOCKS}),
-    addAction({commit: createAction('[WORKSPACE] Commit Block', props<{block: Block}>())}),
-    addAction({sample: createAction('[WORKSPACE] Sample Feature')}),
-    addAction({run: createAction('[WORKSPACE] Run Feature')}),
+    addAction({
+        commit: createAction('[WORKSPACE] Commit Block', props<{block: Block}>()),
+        sample: createAction('[WORKSPACE] Sample Feature'),
+        run: createAction('[WORKSPACE] Run Feature')
+    }),
     addComposedSelector(f => ({toolbox: createSelector(f.selectors.featureSelector, (state) => Object.values(state.toolbox))})),
     addEffectMap(f => f.actions.commit, f => f.actions.uspsertOne, commit => ({item: commit.block})),
+    addEffectMap(f => f.actions.commit, f => f.actions.sample, commit => ({})),
     addActionlessEffect(f => f.actions.sample, f => (inj) => (obs) => obs.pipe(
         switchMap(() => inj.get(Store).pipe(
             select(f.selectors.all),

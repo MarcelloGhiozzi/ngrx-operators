@@ -4,17 +4,14 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { BlockDirective } from './block/block.directive';
 import { BlockComponent } from './block/block.component';
-import { CreateFeatureComponent } from './blocks/create-feature/create-feature.component';
+import { CommonModule } from '@angular/common';
 
 
-export const BLOCKS = [
-  CreateFeatureComponent
-];
 
 @NgModule({
-  declarations: [WorkspaceComponent, BlockDirective, BlockComponent, ...BLOCKS],
-  entryComponents: BLOCKS,
+  declarations: [WorkspaceComponent, BlockDirective, BlockComponent],
   imports: [
+    CommonModule,
     SharedModule,
     RouterModule.forChild([{path: '', component: WorkspaceComponent}])
   ]
