@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { TodoFeature } from './todo.feature';
+import { TodoFeature } from './todo.operators/todo.feature';
 import { UserFeature } from './user.feature';
 import { Todo } from './model';
 

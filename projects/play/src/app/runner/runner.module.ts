@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { RunnerComponent } from './runner.component';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import { EffectsModule, Actions } from '@ngrx/effects';
 import { AppModule } from 'projects/play/src/app/app.module';
-import { NgRxEffectsProvider, createEffectProvider } from 'projects/ngrx-operators/src/public-api';
+import { NgRxEffectsProvider, createEffectProvider, FeatureEffects } from 'projects/ngrx-operators/src/public-api';
 import { SharedModule } from '../shared/shared.module';
 import { WorkspaceService } from '../core/workspace.builder';
 
@@ -23,9 +23,9 @@ export const build = () => {
     declarations: [RunnerComponent],
     imports: [
       SharedModule,
-      RouterModule.forChild([{ path: '', component: RunnerComponent}]),
       StoreModule.forFeature(feature.key, feature.reducer),
-      EffectsModule.forFeature([])
+      EffectsModule.forFeature([BuildEffectProvider]),
+      RouterModule.forChild([{ path: '', component: RunnerComponent}]),
     ]
   })(RunnerModule);
 };

@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { NgRxEntityFeature, NgRxFeature } from 'projects/ngrx-operators/src/lib/types/ngrx.feature';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -13,13 +14,14 @@ import { NgRxEntityFeature, NgRxFeature } from 'projects/ngrx-operators/src/lib/
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     CoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  
+
   constructor() {
   }
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { addSelectableEntity, addSwitchEffect, createEffectProvider, createEntityFeature, NgRxEffectsProvider } from 'projects/ngrx-operators/src/public-api';
+import { addSelectableEntity, addSwitchEffect, createEffectProvider, createEntityFeature, NgRxEffectsProvider, addEffectMap, addHttpEffect } from 'projects/ngrx-operators/src/public-api';
 import { map } from 'rxjs/operators';
 import { Todo } from '../model';
 
@@ -12,6 +12,7 @@ export const TodoFeature = createEntityFeature('todos', {} as Todo).pipe(
     addSwitchEffect('load', (i) => i.get(HttpClient).get<Todo[]>('https://jsonplaceholder.typicode.com/todos').pipe(
         map(result => ({result}))
     )),
+    addEffectMap((f) => f.actions.load.success, (f) => f.actions.addMany, ({result}) => ({items: result})),
 ).sample();
 
 

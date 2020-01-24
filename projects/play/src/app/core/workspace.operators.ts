@@ -1,4 +1,4 @@
-import { createEntityFeature, createNgRxFeature, addHttpEffect, addEffectMap, addSelectableEntity } from 'projects/ngrx-operators/src/public-api';
+import { createEntityFeature, createNgRxFeature, addHttpEffect, addEffectMap, addSelectableEntity, addSwitchEffect } from 'projects/ngrx-operators/src/public-api';
 
 export enum BlockArgs {
     Number = 'number',
@@ -34,7 +34,7 @@ export const BlockToOperator: {
 } = {
     [BlockNames.CreateEntityFeature]: createEntityFeature,
     [BlockNames.CreateFeature]: createNgRxFeature,
-    [BlockNames.AddHttpEffect]: addHttpEffect,
+    [BlockNames.AddHttpEffect]: addSwitchEffect,
     [BlockNames.AddEffectMap]: addEffectMap,
     [BlockNames.AddSelectableEntity]: addSelectableEntity
 };

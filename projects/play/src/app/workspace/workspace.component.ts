@@ -26,6 +26,7 @@ export class WorkspaceComponent {
 
   sample() {
     this.store.dispatch(WorkspaceFeature.actions.sample());
+    this.store.dispatch(WorkspaceFeature.actions.run());
   }
 
   commit(block: Block) {

@@ -23,7 +23,8 @@ export class RunnerComponent {
   constructor(private store: Store<any>) {}
 
   dispatch(action) {
-    this.store.dispatch(action(JSON.parse(this.payload)));
+    const trigger = typeof action === 'function' ? action : action.trigger;
+    this.store.dispatch(trigger(JSON.parse(this.payload)));
   }
 
 }

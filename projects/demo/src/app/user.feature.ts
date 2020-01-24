@@ -10,13 +10,14 @@ import {
     createEffectProvider,
     createEntityFeature,
     NgRxEffectsProvider,
+    addSwitchEffect,
 } from 'projects/ngrx-operators/src/public-api';
 import { map } from 'rxjs/operators';
 
 
 export const UserFeature = createEntityFeature('users', {} as User).pipe(
     addSelectableEntity(),
-    addSideEffect('load', (_, i) => i.get(HttpClient).get<User[]>('https://jsonplaceholder.typicode.com/users').pipe(
+    addSwitchEffect('load', (i) => i.get(HttpClient).get<User[]>('https://jsonplaceholder.typicode.com/users').pipe(
         map(result => ({result}))
     )),
     addEffectMap((f) => f.actions.load.success, (f) => f.actions.addMany, ({result}) => ({items: result})),
