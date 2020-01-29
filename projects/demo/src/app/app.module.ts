@@ -8,6 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
 import { TodoFeatureModule } from './todo.operators/todo.feature';
 import { UserFeatureModule } from './user.feature';
+import { AngularFireModule } from '@angular/fire';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,15 @@ import { UserFeatureModule } from './user.feature';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument(),
+    AngularFireModule.initializeApp({
+      apiKey: 'AIzaSyAs2MYP-Y9IuiDweiOgpwVpGNhWThGUKzA',
+      authDomain: 'test-b63e2.firebaseapp.com',
+      databaseURL: 'https://test-b63e2.firebaseio.com',
+      projectId: 'test-b63e2',
+      storageBucket: 'test-b63e2.appspot.com',
+      messagingSenderId: '1019575076422',
+      appId: '1:1019575076422:web:0d87384b4ae3af8df6ac47'
+    }),
     UserFeatureModule,
     TodoFeatureModule,
   ],

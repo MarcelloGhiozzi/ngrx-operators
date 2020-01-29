@@ -3,7 +3,7 @@
     <text>{{metadata.description}}</text>
 <div class="control" *ngIf="committed">
     <ng-container *ngFor="let arg of metadata?.args">
-        <input-arg [control]="form?.controls[arg?.name]" [arg]="arg"></input-arg>
+        <input-arg  (commit)="commit()" [control]="form?.controls[arg?.name]" [arg]="arg"></input-arg>
     </ng-container>
 </div>
 </ng-container>

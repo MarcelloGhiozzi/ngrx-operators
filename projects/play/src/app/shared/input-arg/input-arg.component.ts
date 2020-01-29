@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver, Input, ViewChild, ComponentRef } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, Input, ViewChild, ComponentRef, Output, EventEmitter } from '@angular/core';
 import { BlockArgs } from '../../core/workspace.operators';
 import { InputStringComponent } from '../input-string/input-string.component';
 import { InputNumberComponent } from '../input-number/input-number.component';
@@ -24,6 +24,7 @@ export const ArgComponents: {[P in BlockArgs]: typeof InputArg } = {
 export class InputArgComponent implements OnInit {
 
   @ViewChild(InputArgDirective, {static: true}) host: InputArgDirective;
+  @Output() commit = new EventEmitter<void>();
   @Input() control: FormControl;
   @Input() arg: {
     name: string,
@@ -40,6 +41,7 @@ export class InputArgComponent implements OnInit {
     const component: ComponentRef<InputArg> = viewContainerRef.createComponent(componentFactory);
     component.instance.control = this.control;
     component.instance.name = this.arg.name;
+    component.instance.commit = this.commit;
   }
 
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgRxEntityFeature, NgRxFeature } from 'projects/ngrx-operators/src/lib/types/ngrx.feature';
-import { Monad, addSwitchEffect } from 'projects/ngrx-operators/src/public-api';
+import { Monad } from 'projects/ngrx-operators/src/public-api';
 import { map } from 'rxjs/operators';
 import { Block, BlockArgs, BlockNames, BlockToOperator } from './workspace.operators';
 

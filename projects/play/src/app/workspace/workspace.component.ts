@@ -13,7 +13,8 @@ export class WorkspaceComponent {
 
 
   toolbox = this.store.pipe(select(WorkspaceFeature.selectors.toolbox));
-  feature = this.store.pipe(select(WorkspaceFeature.selectors.all));
+  start = this.store.pipe(select(WorkspaceFeature.selectors.start));
+  pipe = this.store.pipe(select(WorkspaceFeature.selectors.pipe));
 
   constructor(
     private router: Router,
@@ -34,6 +35,10 @@ export class WorkspaceComponent {
       ...block,
       id: block.id || Date.now().toString()
     }}));
+  }
+
+  trackBy(block: Block) {
+    return block.id + block.tag;
   }
 
 }

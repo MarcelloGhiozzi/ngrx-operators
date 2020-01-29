@@ -8,7 +8,10 @@
     <title (click)="sample()" class="header"> 
         FEATURE
     </title>
-    <ng-container *ngFor="let block of (feature | async)">
+    <ng-container *ngIf="start | async as start">
+        <block [block]="start" [committed]="true"></block>
+    </ng-container>
+    <ng-container *ngFor="let block of (pipe | async); trackBy">
         <block [block]="block" [committed]="true"></block>
     </ng-container>
 </div>

@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, HostListener, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
-import { mapObject } from '../../core/utils';
+import { Subscription, fromEvent, interval } from 'rxjs';
+import { map, takeUntil, switchMap } from 'rxjs/operators';
 import { WorkspaceFeature } from '../../core/workspace.feature';
-import { Block, BlockNames } from '../../core/workspace.operators';
+import { Block } from '../../core/workspace.operators';
+import { mapObject } from '../../core/workspace.utils';
 
 
 @Component({
@@ -12,11 +13,12 @@ import { Block, BlockNames } from '../../core/workspace.operators';
   templateUrl: './block.component.html',
   styleUrls: ['./block.component.scss']
 })
-export class BlockComponent implements OnInit {
+export class BlockComponent implements OnInit, OnDestroy {
 
   @Input() block: Block;
   @Input() committed = false;
 
+  sub: Subscription = new Subscription();
   form: FormGroup;
   metadata = this.store.pipe(
     select(WorkspaceFeature.selectors.toolbox),
@@ -31,6 +33,7 @@ export class BlockComponent implements OnInit {
   );
 
   constructor(
+    private element: ElementRef,
     private store: Store<any>,
   ) { }
 
@@ -38,8 +41,19 @@ export class BlockComponent implements OnInit {
     this.form = new FormGroup(mapObject(this.block.args, val => new FormControl(val.value, Validators.required)));
   }
 
-  commit() {
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 
+  commit() {
+    const form = this.form.getRawValue();
+    this.store.dispatch(WorkspaceFeature.actions.commit({block: ({
+      ...this.block,
+      args: mapObject(this.block.args, (value, key) => ({
+        ...value,
+        value: form[key]
+      }))
+    })}));
   }
 
 }

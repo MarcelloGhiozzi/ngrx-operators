@@ -1,1 +1,1 @@
-<input type="text" [name]="name" [formControl]="control">
+<input type="text" (blur)="commit?.emit()" [name]="name" [formControl]="control">

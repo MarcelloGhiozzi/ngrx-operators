@@ -16,7 +16,11 @@ export const WorkspaceFeature = createEntityFeature('workpsace', {} as Block).pi
         sample: createAction('[WORKSPACE] Sample Feature'),
         run: createAction('[WORKSPACE] Run Feature')
     }),
-    addComposedSelector(f => ({toolbox: createSelector(f.selectors.featureSelector, (state) => Object.values(state.toolbox))})),
+    addComposedSelector(f => ({
+        toolbox: createSelector(f.selectors.featureSelector, (state) => Object.values(state.toolbox)),
+        start: createSelector(f.selectors.entities, (entities) => entities && entities.start),
+        pipe: createSelector(f.selectors.all, (pipe) => pipe.filter(block => block.id !== 'start'))
+    })),
     addEffectMap(f => f.actions.commit, f => f.actions.uspsertOne, commit => ({item: commit.block})),
     addEffectMap(f => f.actions.commit, f => f.actions.sample, commit => ({})),
     addActionlessEffect(f => f.actions.sample, f => (inj) => (obs) => obs.pipe(

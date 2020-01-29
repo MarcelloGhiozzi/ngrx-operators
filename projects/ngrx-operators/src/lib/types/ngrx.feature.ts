@@ -26,3 +26,5 @@ export type SideEffectAction<K extends string, T = any, S = any, F = any> = {
         failure: F
     }
 };
+
+

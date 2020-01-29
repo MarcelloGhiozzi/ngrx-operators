@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef, Input } from '@angular/core';
+import { Directive, ViewContainerRef, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Directive({
@@ -15,5 +15,6 @@ export class InputArg {
 
   @Input() name: string;
   @Input() control: FormControl;
+  @Output() commit: EventEmitter<void>;
 
 }
