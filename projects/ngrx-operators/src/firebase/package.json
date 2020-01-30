@@ -1,3 +1,7 @@
 {
-    "ngPackage": {}
+    "ngPackage": {},
+    "peerDependencies": {
+        "@angular/fire": "5.3.0",
+        "firebase": "7.7.0"
+    }
 }

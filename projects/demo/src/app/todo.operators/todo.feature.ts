@@ -17,7 +17,8 @@ export const TodoFeature = createEntityFeature('todos', {} as Todo).pipe(
     )),
     addEffectMap((f) => f.actions.load.success, (f) => f.actions.addMany, ({result}) => ({items: result})),
     syncWithFirebaseCollection('/todos'),
-    addEffectMap(f => f.actions.load.success, (f) => f.actions.upload, ({result}) => ({items: result}))
+    addEffectMap(f => f.actions.load.success, (f) => f.actions.upload, ({result}) => ({items: result})),
+    addEffectMap(f => f.actions.addOne, (f) => f.actions.upload, ({item}) => ({items: [item]}))
 ).sample();
 
 
